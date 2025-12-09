@@ -1,37 +1,43 @@
-import { getPairedRecipes } from "./api.js";
+import { getRecipeInformation } from './pair_recipe.js';
+import { getPairedRecipes } from './pair_wine.js';
 
-document.addEventListener("DOMContentLoaded", () => {
-  const dropdown = document.getElementById("wine-select");
-  const form = document.getElementById("submit-winetype");
+document.addEventListener('DOMContentLoaded', () => {
+  const dropdown = document.getElementById('wine-select');
+  const form = document.getElementById('submit-winetype');
 
-  form.addEventListener("submit", async (event) => {
+  // ---- ELEMENT CREATION
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
+
     // On click: select and submit value
-    const dropdown = document.getElementById("wine-select");
+    const dropdown = document.getElementById('wine-select');
     const wineType = dropdown.value;
 
+    // Fetch paitings from pair_recipe.js
     const { wineInfo, recipes } = await getPairedRecipes(wineType);
 
-    // ---- Show info about selected wine
+    // ---- SHOW INFO ABOUT SELECTED WINE
     function showSelectedWine(wineType, wineInfo) {
-      const wineSelected = document.querySelector(".wine-selected");
+      const wineSelected = document.querySelector('.wine-selected');
       // Clear previous content
-      wineSelected.innerHTML = "";
+      wineSelected.innerHTML = '';
       wineType = formatName(wineType);
-      const wineName = document.createElement("p");
-      wineName.innerText = wineType + ", great choice!";
+      const wineName = document.createElement('p');
+      wineName.innerText = wineType + ', great choice!';
       wineSelected.appendChild(wineName);
 
-      const wineDesc = document.createElement("p");
+      const wineDesc = document.createElement('p');
       wineDesc.innerText = wineInfo;
       wineSelected.appendChild(wineDesc);
     }
     showSelectedWine(wineType, wineInfo);
 
-    function showRecipes() {
-      const recipeSection = document.getElementById("recipe-section");
+    async function showRecipes() {
+      // To prevent infinate on-click fetching
+
+      const recipeSection = document.getElementById('recipe-section');
       // Clear previous content
-      recipeSection.innerHTML = "";
+      recipeSection.innerHTML = '';
 
       recipes.forEach((recipe) => {
         // Create details toggle
@@ -39,35 +45,87 @@ document.addEventListener("DOMContentLoaded", () => {
         recipeSection.appendChild(details);
         const summary = document.createElement('summary');
         details.appendChild(summary);
-        const title = document.createElement("h4");
+        const title = document.createElement('h3');
         title.innerText = recipe.title;
         summary.appendChild(title);
-      });
-      
-      
 
+        details.addEventListener('toggle', async () => {
+          const recipeContainer = document.createElement('div');
+          recipeContainer.innerHTML = '';
+
+          // Fetch full recipes
+          const recipeInfo = await getRecipeInformation(recipe.id);
+          console.log(recipeInfo);
+
+          const ulContainer = document.createElement('div');
+
+          const hIngredient = document.createElement('h4');
+          hIngredient.innerText = 'Ingredients';
+          const ul = document.createElement('ul');
+
+          ulContainer.appendChild(hIngredient);
+          ulContainer.appendChild(ul);
+
+          const ingredients = recipeInfo.extendedIngredients;
+
+          ingredients.forEach((ingredient) => {
+            const li = document.createElement('li');
+            const span = document.createElement('span');
+            span.classList.add('ingredient');
+            span.innerText = ( 
+              ingredient.measures.metric.amount 
+              + ' ' 
+              +ingredient.measures.metric.unitShort
+              + ' '
+            )
+            li.appendChild(span)
+            li.append(ingredient.nameClean);
+            ul.appendChild(li);
+          });
+
+          const olContainer = document.createElement('div');
+
+          const hSteps = document.createElement('h4');
+          hSteps.innerHTML = 'Steps';
+          const ol = document.createElement('ol');
+
+          olContainer.appendChild(hSteps);
+          olContainer.appendChild(ol);
+
+          const steps = recipeInfo.analyzedInstructions[0].steps;
+          steps.forEach((step) => {
+            const li = document.createElement('li');
+            li.innerText = step.step;
+            ol.appendChild(li);
+          });
+
+          recipeContainer.appendChild(ulContainer);
+          recipeContainer.appendChild(olContainer);
+          details.appendChild(recipeContainer);
+        });
+      });
     }
     showRecipes();
     dropdown.value = null;
   });
 
-  // Fetch and display wine selection
+  // ---- Fetch and display wine selection
   try {
-    fetch("resources/wines.json")
+    fetch('resources/wines.json')
       .then((response) => response.json())
       .then((wines) => {
         for (let category in wines) {
           // Name cleanup and create selection groups
           const categoryName = formatName(category);
-          const optgroup = document.createElement("optgroup");
-          optgroup.setAttribute("label", categoryName);
+          const optgroup = document.createElement('optgroup');
+          optgroup.setAttribute('label', categoryName);
           dropdown.appendChild(optgroup);
 
           wines[category].forEach((wine) => {
             const wineName = formatName(wine);
-            const option = document.createElement("option");
+            const option = document.createElement('option');
             option.innerText = wineName;
-            option.setAttribute("value", wine);
+            option.setAttribute('value', wine);
             optgroup.appendChild(option);
           });
         }
@@ -77,9 +135,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function formatName(string) {
-  return string
-    .split("_")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+    return string
+      .split('_')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   }
 });
