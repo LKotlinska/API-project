@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ---- Fetch and display wine selection
   try {
-    fetch('/assets/wines.json')
+    fetch('./assets/wines.json')
       .then((response) => response.json())
       .then((wines) => {
         for (let category in wines) {
