@@ -12,16 +12,15 @@
       href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
       rel="stylesheet"
     />
-
     <title>Uncork & Fork</title>
   </head>
   <body>
     <header>
       <div class="overlay-container">
         <img
-        class="img-overlay"
-        src="/assets/images/wine-bg.jpg"
-        alt="dinner table with people toasting with wine"
+          class="img-overlay"
+          src="/assets/images/wine-bg.jpg"
+          alt="table with wine and different fruits"
         />
       </div>
       <a class="logo-container" href="index.html">
@@ -48,30 +47,47 @@
       </article>
       <article class="about-item">
         <h3>How It Works</h3>
-        <ul>
-          <li>Choose a wine from the dropdown.</li>
-          <li>
-            We analyze flavor profiles using curated wine categories and the
-            Spoonacular food API.
-          </li>
-          <li>Get recipe suggestions that pair beautifully with your wine.</li>
-          <li>Cook, sip, and enjoy.</li>
-        </ul>
-        <p>Voilà</p>
+        <p>- Choose a wine from the dropdown menu.</p>
+        <p>
+          - The app analyzes your wine and fetches dish pairings using curated
+          categories and the Spoonacular wine API.
+        </p>
+        <p>
+          - For each paired dish, the app retrieves recipe suggestions with
+          ingredients and step-by-step instructions...
+        </p>
+        <p>
+          ...And all that’s left is to cook the dish, pour your wine, and enjoy
+          a perfectly paired meal.
+        </p>
       </article>
     </section>
-    <section>
-      <h3>Wine selection</h3>
-      <form id="submit-winetype">
-        <label for="wine-select">Choose your wine: </label>
-        <select id="wine-select" name="wine" required>
-          <option value="" disabled selected>Select a wine...</option>
-        </select>
-        <!--  FIX LATER: do not allow submit without choosing an option - VALIDATION -->
-        <button type="submit">Pair my wine</button>
-      </form>
-      <article class="wine-selected"></article>
+
+    <section class="select-section">
+      <div class="select-container">
+        <h3>Wine selection</h3>
+        <form id="submit-winetype">
+            <div class="select-item">
+            <label for="wine-select">Choose your wine: </label>
+            <select id="wine-select" name="wine" required>
+              <option value="" disabled selected>Select a wine...</option>
+            </select>
+        </div>
+          <!--  FIX LATER: do not allow submit without choosing an option - VALIDATION -->
+          <div class="select-item">
+            <button type="submit">Pair my wine</button>
+          </div>
+        </form>
+      </div>
+      <div class="overlay-container">
+        <img
+          class="img-overlay"
+          src="/assets/images/food-bg.jpg"
+          alt="dinner table with people toasting with wine"
+        />
+      </div>
     </section>
+    <article class="wine-selected"></article>
     <section id="recipe-section"></section>
   </body>
 </html>
