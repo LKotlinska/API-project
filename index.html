@@ -17,37 +17,51 @@
   </head>
   <body>
     <header>
+      <div class="overlay-container">
+        <img
+        class="img-overlay"
+        src="/assets/images/wine-bg.jpg"
+        alt="dinner table with people toasting with wine"
+        />
+      </div>
       <a class="logo-container" href="index.html">
-        <img src="/assets/images/logo.svg" alt="Uncork and Fork logo" />
         <hgroup>
-          <h1>Uncork & Fork</h1>
-          <h2>Let the Wine Choose Dinner</h2>
+          <h1 class="logo-heading">Uncork & Fork</h1>
+          <h2 class="logo-subheading">Let the Wine Choose Dinner</h2>
         </hgroup>
       </a>
-      </figure>
     </header>
 
-    <section>
-      <article>
+    <section class="about-section">
+      <article class="about-item">
+        <h3>About Uncork & Fork</h3>
+        <p>
+          At Uncork & Fork, the spotlight is on the wine. Every bottle tells a
+          story, and the food you pair it with can either enhance or dull its
+          voice. That’s why we flip the traditional approach and let the wine
+          choose dinner.
+        </p>
+        <p>
+          It’s pairing made simple, delicious, and always centered around the
+          star of the table: your wine.
+        </p>
+      </article>
+      <article class="about-item">
         <h3>How It Works</h3>
         <ul>
           <li>Choose a wine from the dropdown.</li>
-          <li>We analyze flavor profiles using curated wine categories and the Spoonacular food API.</li>
+          <li>
+            We analyze flavor profiles using curated wine categories and the
+            Spoonacular food API.
+          </li>
           <li>Get recipe suggestions that pair beautifully with your wine.</li>
           <li>Cook, sip, and enjoy.</li>
         </ul>
         <p>Voilà</p>
       </article>
-      <article>
-        <h3>About Uncork & Fork</h3>
-        <p>At Uncork & Fork, the spotlight is on the wine. Every bottle tells a story, and the food you pair it with can either enhance or dull its voice. That’s why we flip the traditional approach and let the wine choose dinner.</p>
-        <p>It’s pairing made simple, delicious, and always centered around the star of the table: your wine.</p>
-      </article>
     </section>
     <section>
-      <h3>
-        Wine selection
-      </h3>
+      <h3>Wine selection</h3>
       <form id="submit-winetype">
         <label for="wine-select">Choose your wine: </label>
         <select id="wine-select" name="wine" required>
@@ -56,11 +70,8 @@
         <!--  FIX LATER: do not allow submit without choosing an option - VALIDATION -->
         <button type="submit">Pair my wine</button>
       </form>
-      <article class="wine-selected">
-      </article>
+      <article class="wine-selected"></article>
     </section>
-    <section id="recipe-section">
-    </section>
-
+    <section id="recipe-section"></section>
   </body>
 </html>
